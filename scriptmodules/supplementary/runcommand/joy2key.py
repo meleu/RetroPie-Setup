@@ -61,6 +61,7 @@ def open_devices():
         except:
             pass
 
+# TODO: js_button_codes[fds[-1]] = get_button_codes(dev)
     return devs, fds
 
 def close_fds(fds):
@@ -114,11 +115,13 @@ def process_event(event):
 
 signal.signal(signal.SIGINT, signal_handler)
 
+# TODO: usar um dicionário de button_codes onde o índice será o file descriptor (js_fds)
 button_codes = []
 axis_codes = []
 
 curses.setupterm()
 
+# TODO: Se não passar parâmetro algum, usar o default: direcionais, btn0 = <enter>, btn1 = <tab>
 i = 0
 for arg in sys.argv[2:]:
     chars = get_hex_chars(arg)
