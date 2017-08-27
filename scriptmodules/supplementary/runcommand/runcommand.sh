@@ -937,11 +937,13 @@ function show_launch() {
     if [[ -n "$image" ]]; then
         # if we are running under X use feh otherwise try and use fbi
         if [[ -n "$DISPLAY" ]]; then
-            feh -F -N -Z -Y -q "$image" & &>/dev/null
-            IMG_PID=$!
-            sleep "$IMAGE_DELAY"
+            if ! pgrep feh >/dev/null; then
+                feh -F -N -Z -Y -q "$image" & &>/dev/null
+                IMG_PID=$!
+                sleep "$IMAGE_DELAY"
+            fi
         else
-            fbi -1 -t "$IMAGE_DELAY" -noverbose -a "$image" </dev/tty &>/dev/null
+            pgrep fbi >/dev/null || fbi -1 -t "$IMAGE_DELAY" -noverbose -a "$image" </dev/tty &>/dev/null
         fi
     elif [[ "$DISABLE_MENU" -ne 1 && "$USE_ART" -ne 1 ]]; then
         local launch_name
